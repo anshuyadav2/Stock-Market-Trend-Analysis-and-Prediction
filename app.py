@@ -9,10 +9,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
-def about_modal():
-    st.markdown("## About")
-    st.write("This is the Stock Trend Analysis app by Anshu Yadav")
-    st.write("Here, you can analyze stock like historical data , fetch live data ,moving averages and also predict the future price.")
 
 # Load model and set up Streamlit header
 model = load_model("Stock Predictions Model.keras")
@@ -31,7 +27,7 @@ st.sidebar.header(':roller_coaster: Stock Market Predictor')
 
 # Example list of stock symbols (expanded with international and Indian stocks)
 common_stock_symbols = [
-    'AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TSLA', 'NFLX', 'NVDA', 'INTC', 'AMD', 'CSCO', 'ADBE', 'PYPL',
+    'AAPL', 'GOOGL', 'MSFT', 'AMZN', 'META', 'TSLA', 'NFLX', 'NVDA', 'INTC', 'AMD', 'CSCO', 'ADBE', 'PYPL',
     'PUM', 'BAC', 'ADS', 'V', 'JPM', 'WMT', 'MA', 'CRM', 'PG', 'KO', 'PEP', 'MCD', 'NKE', 'BA', 'XOM',
     'TM', 'HMC', 'NVS', 'TSM', 'RIO', 'BP', 'UL', 'IBM', 'ORCL', 'JD', 'C', 'WFC', 'VZ', 'T', 'GE', 'LMT',
     'INFY', 'TATASTEEL.NS', 'RELIANCE.NS', 'HDFCBANK.NS', 'ICICIBANK.NS', 'HINDUNILVR.NS', 'AXISBANK.NS', 'SBIN.NS','TCS.NS', 'COALINDIA.NS', 'TITAN.NS'
@@ -280,7 +276,7 @@ last_date = data.index[-1]
 next_10_days = pd.date_range(start=last_date + pd.DateOffset(1), periods=10)
 
 # Display the predicted prices for the next 10 days
-st.subheader('Predicted Prices for Next 10 Days')
+st.subheader('Predicted Prices for Next 10 Days :heavy_dollar_sign:')
 predicted_prices_df = pd.DataFrame({
     'Date': next_10_days,
     'Predicted Price': predicted_prices.flatten()
@@ -302,6 +298,40 @@ fig.update_layout(
 
 st.plotly_chart(fig)
 
-# Sidebar with About button
-if st.sidebar.button("About"):
-    about_modal()
+import re
+
+def save_contact_info(name, email, message):
+    with open('contact_info.txt', 'a') as file:
+        file.write(f"Name: {name}\n")
+        file.write(f"Email: {email}\n")
+        file.write(f"Message: {message}\n")
+        file.write("\n")  # Add a separator between entries
+
+def validate_email(email):
+    # Using a simple regex pattern for email validation
+    pattern = r"[^@]+@[^@]+\.[^@]+"
+    return re.match(pattern, email)
+
+
+# Define columns for About and Contact Me sections
+col1, col2 = st.columns([1, 1])
+
+# About Section
+with col1:
+  st.header(":memo: Contact Me")
+  name = st.text_input("Your Name", key='name')
+  email = st.text_input("Your Email", key='email')
+  message = st.text_area("Message", key='message')
+
+  if st.button("Submit"):
+    if name.strip() == '' or not validate_email(email) or message.strip() == '':
+      st.warning("Please provide a valid email and fill in all required fields.")
+    else:
+      save_contact_info(name, email, message)
+      st.success("Message sent successfully!")
+
+# Contact Me Section
+with col2:
+  st.header(":page_with_curl: About")
+  st.write("This is the Stock Trend Analysis app.")
+  st.write("Here, you can analyze stock historical data, fetch live data, and predict future prices.")
