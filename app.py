@@ -274,4 +274,3 @@ with colB:
 
 st.markdown("---")
 st.caption("© 2025 Stock Predictor by Anshu Yadav")
-
