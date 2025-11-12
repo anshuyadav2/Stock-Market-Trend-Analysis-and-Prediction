@@ -15,7 +15,7 @@ import re
 # Load Model
 # ---------------------------------
 try:
-    model = load_model(r"C:\Users\anshu\Downloads\stock\Stock Model.keras")
+    model = load_model("Stock Model.keras")
 except Exception as e:
     st.warning(f"⚠️ Model could not be loaded: {e}")
     model = None
@@ -274,3 +274,4 @@ with colB:
 
 st.markdown("---")
 st.caption("© 2025 Stock Predictor by Anshu Yadav")
+
